@@ -5,9 +5,12 @@ import com.smalaca.annotation.ddd.AggregateRoot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @AggregateRoot
 public class Assortment {
+    private UUID assortmentId;
+    private UUID sellerId;
     private Map<Product, Amount> products = new HashMap<>();
 
     @PrimaryPort
