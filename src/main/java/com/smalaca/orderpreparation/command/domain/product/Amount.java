@@ -1,8 +1,8 @@
 package com.smalaca.orderpreparation.command.domain.product;
 
-import lombok.Value;
+import com.smalaca.annotation.ddd.ValueObject;
 
-@Value
+@ValueObject
 class Amount {
     private final Integer amount;
 
