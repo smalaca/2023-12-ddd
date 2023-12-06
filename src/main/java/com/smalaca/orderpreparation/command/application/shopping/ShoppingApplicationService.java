@@ -30,7 +30,7 @@ public class ShoppingApplicationService {
     public UUID accept(AcceptShoppingCommand command) {
         Shopping shopping = shoppingRepository.findById(command.shoppingId());
 
-        Disposal disposal = shopping.accept();
+        Disposal disposal = shopping.accept(command.asAcceptShoppingDomainCommand());
 
         return disposalRepository.save(disposal);
     }

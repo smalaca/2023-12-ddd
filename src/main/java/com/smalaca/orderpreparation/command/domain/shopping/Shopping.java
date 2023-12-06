@@ -9,7 +9,7 @@ import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
 public class Shopping {
     @PrimaryPort
     @Factory
-    public Disposal accept() {
-        return null;
+    public Disposal accept(AcceptShoppingDomainCommand command) {
+        return new Disposal(command.deliveryType());
     }
 }
