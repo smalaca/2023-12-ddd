@@ -1,8 +1,11 @@
 package com.smalaca.orderpreparation.command.domain.producttoorder;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.smalaca.annotation.ddd.AggregateRoot;
+import com.smalaca.eventbus.EventBus;
+import com.smalaca.orderpreparation.command.application.producttoorder.ApproveCartCommand;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -21,8 +24,9 @@ public class ProductsToOrder {
         return new ProductsToOrder(id);
     }
 
-    public void approve(final Object cart) {
-
+    public void approve(final EventBus eventBus, final List<Object> products) {
+        // todo dodanie produktów do agregatu
+        eventBus.fire(ProductsSelectedEvent.of(products));
     }
 
 }
