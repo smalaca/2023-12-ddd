@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListFactory;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
@@ -16,7 +15,6 @@ public class ShoppingListApplicationService {
 
     private final ShoppingListRepository repository;
 
-    @Factory
     private final ShoppingListFactory shoppingListFactory;
 
     @Transactional

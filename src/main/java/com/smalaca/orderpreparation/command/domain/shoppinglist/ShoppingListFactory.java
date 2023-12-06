@@ -16,6 +16,7 @@ import com.smalaca.sharedkernel.domain.time.TimeProvider;
 
 import lombok.AllArgsConstructor;
 
+@Factory
 @AllArgsConstructor
 public class ShoppingListFactory {
 

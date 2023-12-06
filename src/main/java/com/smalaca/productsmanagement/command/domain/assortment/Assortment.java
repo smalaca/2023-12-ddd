@@ -31,7 +31,7 @@ public class Assortment {
 
     @PrimaryPort
     public void addProduct(final NewProductCommand.NewProductParams params) {
-        this.products.add(Product.of(params.getName(), params.getDescription(), params.getPrice(), params.getQuantity()));
+        this.products.add(Product.of(UUID.randomUUID(), params.getName(), params.getDescription(), params.getPrice(), params.getQuantity()));
     }
 
 }

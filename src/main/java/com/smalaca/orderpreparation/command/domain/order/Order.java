@@ -42,7 +42,7 @@ public class Order {
     @NotEmpty
     private final List<ChosenProduct> products;
 
-    // todo possible move to separate factory
+    // todo: possible move to separate factory
     @Factory
     public static Order of(final OrderId id, final ShoppingListId shoppingListId, final CustomerId customer,
                            final Function<CustomerId, OrderNumber> randomNumberGenerator,

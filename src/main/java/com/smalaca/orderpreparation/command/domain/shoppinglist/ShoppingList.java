@@ -33,11 +33,11 @@ import lombok.Getter;
 public class ShoppingList {
 
     @NotNull
-    private ShoppingListId id;
+    private final ShoppingListId id;
 
     @Valid
     @NotNull
-    private ShoppingListNumber number;
+    private final ShoppingListNumber number;
 
     @NotEmpty
     private final List<ChosenProduct> products;
