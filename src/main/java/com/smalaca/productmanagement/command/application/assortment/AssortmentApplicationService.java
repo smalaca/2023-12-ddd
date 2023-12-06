@@ -4,6 +4,7 @@ import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.productmanagement.command.domain.assortment.Amount;
 import com.smalaca.productmanagement.command.domain.assortment.Assortment;
 import com.smalaca.productmanagement.command.domain.assortment.AssortmentRepository;
+import com.smalaca.productmanagement.command.domain.assortment.Price;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -23,9 +24,10 @@ public class AssortmentApplicationService {
         // id -> aggregate
         Assortment assortment = assortmentRepository.findById(command.assortmentId());
         Amount amount = new Amount(command.amount());
+        Price price = new Price(command.price());
 
         // wywołanie metody z domeny [1]
-        assortment.addProduct(amount);
+        assortment.addProduct(amount, price);
 
         // zapis agregatów [1...*] LUB/I opublikowanie zdarzeń [1]
         return assortmentRepository.save(assortment);
