@@ -15,7 +15,7 @@ public class NewProductCommand {
     private final NewProductParams params;
 
     @Value(staticConstructor = "of")
-    public class NewProductParams {
+    public static class NewProductParams {
 
         private final Price price;
 

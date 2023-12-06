@@ -2,12 +2,15 @@ package com.smalaca.orderpreparation.command.domain.order;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 
 import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
-import com.smalaca.orderpreparation.command.domain.shoppinglist.Product;
+import com.smalaca.orderpreparation.sharedcernel.Product;
+import com.smalaca.sharedcernel.CustomerId;
 import com.smalaca.validation.ValidatorExecutor;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -29,11 +32,9 @@ public class Order {
     @NotBlank
     private final String number;
 
+    @Valid
     @NotNull
-    private final Address address;
-
-    @NotNull
-    private final DeliveryType deliveryType;
+    private final DeliveryInfo deliveryInfo;
 
     @NotNull
     private final PaymentType paymentType;
@@ -41,10 +42,12 @@ public class Order {
     @NotEmpty
     private final List<Product> products;
 
+    // todo possible move to separate factory
     @Factory
-    public static Order of(final UUID id, final UUID shoppingListId, final UUID customer, // todo fixme 3 same args
-                           final Address address, final DeliveryType deliveryType, final PaymentType paymentType, final List<Product> products) {
-        return ValidatorExecutor.validateAndReturn(new Order(id, shoppingListId, customer + UUID.randomUUID().toString(), address, deliveryType,
-                                                             paymentType, products));
+    public static Order of(final UUID id, final UUID shoppingListId, final CustomerId customer,
+                           final Function<CustomerId, String> randomNumberGenerator,
+                           final DeliveryInfo deliveryInfo, final PaymentType paymentType, final List<Product> products) {
+        Order order = new Order(id, shoppingListId, randomNumberGenerator.apply(customer), deliveryInfo, paymentType, products);
+        return ValidatorExecutor.validateAndReturn(order);
     }
 }

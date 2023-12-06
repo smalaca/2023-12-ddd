@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.command.domain.shoppinglist;
+package com.smalaca.orderpreparation.sharedcernel;
 
 import java.util.UUID;
 

@@ -1,6 +1,9 @@
 package com.smalaca.orderpreparation.command.domain.order;
 
+import java.util.List;
+
 import com.smalaca.annotation.ddd.DomainEvent;
+import com.smalaca.orderpreparation.sharedcernel.Product;
 
 import lombok.Value;
 
@@ -8,5 +11,5 @@ import lombok.Value;
 @Value(staticConstructor = "of")
 public class ProductUnavailableEvent {
 
-    private final Object products;
+    private final List<Product> products;
 }

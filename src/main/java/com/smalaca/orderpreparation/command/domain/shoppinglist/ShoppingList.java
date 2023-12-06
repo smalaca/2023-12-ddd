@@ -3,6 +3,7 @@ package com.smalaca.orderpreparation.command.domain.shoppinglist;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
 import com.smalaca.annotation.ddd.AggregateRoot;
@@ -14,6 +15,8 @@ import com.smalaca.orderpreparation.command.domain.order.ProductUnavailableEvent
 import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
 import com.smalaca.orderpreparation.command.domain.order.PurchaseAcceptedEvent;
+import com.smalaca.orderpreparation.sharedcernel.Product;
+import com.smalaca.sharedcernel.CustomerId;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.constraints.NotBlank;
@@ -38,26 +41,27 @@ public class ShoppingList {
     private final List<Product> products;
 
     @Factory
-    public static ShoppingList of(final UUID id, final UUID customer, final List<Product> products, final EventBus eventBus) {
-        ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, customer.toString() + UUID.randomUUID(), products));
+    public static ShoppingList of(final UUID id, final Function<CustomerId, String> randomNumberGenerator, final CustomerId customer, final List<Product> products, final EventBus eventBus) {
+        ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, randomNumberGenerator.apply(customer), products));
         eventBus.fire(ProductsSelectedEvent.of(products));
         return shoppingList;
     }
 
     @PrimaryPort
     public Optional<Order> accept(final UUID orderId,
-                                  final UUID customer,
+                                  final Function<CustomerId, String> randomNumberGenerator,
+                                  final CustomerId customer,
                                   final AcceptProductsCommand.AcceptParams params,
                                   final EventBus eventBus,
                                   final ProductsReservationService productsReservationService,
                                   final ProductsAvailabilityValidator productsAvailabilityValidator) {
-        if(productsAvailabilityValidator.validate()) {
+        if(productsAvailabilityValidator.invalid()) {
             eventBus.fire(ProductUnavailableEvent.of(products));
             return Optional.empty();
         }
-        productsReservationService.book(List.of());
+        productsReservationService.book(products);
         eventBus.fire(PurchaseAcceptedEvent.of(products));
-        return Optional.of(Order.of(orderId, id, customer, params.getAddress(), params.getDeliveryType(), params.getPaymentType(), products));
+        return Optional.of(Order.of(orderId, id, customer, randomNumberGenerator, params.getDeliveryInfo(), params.getPaymentType(), products));
     }
 
 }
