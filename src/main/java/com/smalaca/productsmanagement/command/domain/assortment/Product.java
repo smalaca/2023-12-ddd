@@ -7,9 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 
+import java.util.UUID;
+
 @DomainEntity
 @AllArgsConstructor(staticName = "of")
 class Product {
+
+    private final UUID id;
 
     @NotBlank
     private final String name;
