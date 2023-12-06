@@ -1,8 +1,8 @@
 package com.smalaca.orderpreparation.command.application.shopping;
 
 import com.smalaca.annotation.architecture.PrimaryAdapter;
-import com.smalaca.orderpreparation.command.domain.offer.Offer;
-import com.smalaca.orderpreparation.command.domain.offer.OfferRepository;
+import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
+import com.smalaca.orderpreparation.command.domain.disposal.DisposalRepository;
 import com.smalaca.orderpreparation.command.domain.shopping.Shopping;
 import com.smalaca.orderpreparation.command.domain.shopping.ShoppingRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import java.util.UUID;
 @PrimaryAdapter
 public class ShoppingApplicationService {
     private final ShoppingRepository shoppingRepository;
-    private final OfferRepository offerRepository;
+    private final DisposalRepository disposalRepository;
 
-    public ShoppingApplicationService(ShoppingRepository shoppingRepository, OfferRepository offerRepository) {
+    public ShoppingApplicationService(ShoppingRepository shoppingRepository, DisposalRepository disposalRepository) {
         this.shoppingRepository = shoppingRepository;
-        this.offerRepository = offerRepository;
+        this.disposalRepository = disposalRepository;
     }
 
     @Transactional
@@ -30,8 +30,8 @@ public class ShoppingApplicationService {
     public UUID accept(UUID shoppingId) {
         Shopping shopping = shoppingRepository.findById(shoppingId);
 
-        Offer offer = shopping.accept();
+        Disposal disposal = shopping.accept();
 
-        return offerRepository.save(offer);
+        return disposalRepository.save(disposal);
     }
 }
