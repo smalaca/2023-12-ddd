@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.command.domain.order;
+package com.smalaca.orderpreparation.command.domain.products;
 
 import java.util.List;
 

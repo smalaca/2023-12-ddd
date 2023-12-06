@@ -6,12 +6,11 @@ import java.util.function.Function;
 import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListId;
-import com.smalaca.orderpreparation.sharedkernel.Product;
+import com.smalaca.orderpreparation.sharedkernel.ChosenProduct;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -41,13 +40,13 @@ public class Order {
     private final PaymentType paymentType;
 
     @NotEmpty
-    private final List<Product> products;
+    private final List<ChosenProduct> products;
 
     // todo possible move to separate factory
     @Factory
     public static Order of(final OrderId id, final ShoppingListId shoppingListId, final CustomerId customer,
                            final Function<CustomerId, OrderNumber> randomNumberGenerator,
-                           final DeliveryInfo deliveryInfo, final PaymentType paymentType, final List<Product> products) {
+                           final DeliveryInfo deliveryInfo, final PaymentType paymentType, final List<ChosenProduct> products) {
         Order order = new Order(id, shoppingListId, randomNumberGenerator.apply(customer), deliveryInfo, paymentType, products);
         return ValidatorExecutor.validateAndReturn(order);
     }

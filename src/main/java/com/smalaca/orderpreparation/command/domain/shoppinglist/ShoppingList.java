@@ -3,25 +3,27 @@ package com.smalaca.orderpreparation.command.domain.shoppinglist;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
 import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
-import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.application.order.AcceptProductsCommand;
 import com.smalaca.orderpreparation.command.domain.order.Order;
 import com.smalaca.orderpreparation.command.domain.order.OrderId;
 import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
-import com.smalaca.orderpreparation.command.domain.order.ProductUnavailableEvent;
-import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
-import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
+import com.smalaca.orderpreparation.command.domain.order.ProductsNotFoundEvent;
 import com.smalaca.orderpreparation.command.domain.order.PurchaseAcceptedEvent;
+import com.smalaca.orderpreparation.command.domain.products.ProductsAvailabilityValidator;
+import com.smalaca.orderpreparation.command.domain.products.ProductsReservationService;
+import com.smalaca.orderpreparation.sharedkernel.ChosenProduct;
 import com.smalaca.orderpreparation.sharedkernel.Product;
 import com.smalaca.sharedkernel.CustomerId;
+import com.smalaca.sharedkernel.domain.eventbus.EventBus;
+import com.smalaca.sharedkernel.domain.eventbus.EventId;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -41,13 +43,12 @@ public class ShoppingList {
     private ShoppingListNumber number;
 
     @NotEmpty
-    private final List<Product> products;
+    private final List<ChosenProduct> products;
 
     @Factory
-    public static ShoppingList of(final ShoppingListId id, final Function<CustomerId, ShoppingListNumber> randomNumberGenerator, final CustomerId customer,
-                                  final List<Product> products, final EventBus eventBus) {
-        ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, randomNumberGenerator.apply(customer), products));
-        eventBus.fire(ProductsSelectedEvent.of(products));
+    public static ShoppingList of(final ShoppingListId id, final ShoppingListNumber number, final List<ChosenProduct> products, final EventBus eventBus) {
+        ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, number, products));
+        eventBus.fire(ProductsSelectedEvent.of(toProducts(products)));
         return shoppingList;
     }
 
@@ -60,13 +61,20 @@ public class ShoppingList {
                                   final EventBus eventBus,
                                   final ProductsReservationService productsReservationService,
                                   final ProductsAvailabilityValidator productsAvailabilityValidator) {
-        if(productsAvailabilityValidator.invalid()) {
-            eventBus.fire(ProductUnavailableEvent.of(products));
+        if(productsAvailabilityValidator.isInvalid(toProducts(products))) {
+            eventBus.fire(ProductsNotFoundEvent.of(EventId.of(), customer, toProducts(products)));
             return Optional.empty();
         }
-        productsReservationService.book(products);
-        eventBus.fire(PurchaseAcceptedEvent.of(products));
-        return Optional.of(Order.of(orderId, id, customer, randomNumberGenerator, params.getDeliveryInfo(), params.getPaymentType(), products));
+        productsReservationService.book(toProducts(products));
+        eventBus.fire(PurchaseAcceptedEvent.of(EventId.of(), customer, products));
+        Order order = Order.of(orderId, id, customer, randomNumberGenerator, params.getDeliveryInfo(), params.getPaymentType(), products);
+        return Optional.of(order);
+    }
+
+    private static List<Product> toProducts(final List<ChosenProduct> products) {
+        return products.stream()
+                       .map(product -> Product.of(product.getId(), product.getQuantity()))
+                       .collect(Collectors.toList());
     }
 
 }

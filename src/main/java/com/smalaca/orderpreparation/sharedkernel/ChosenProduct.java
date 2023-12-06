@@ -1,16 +1,16 @@
 package com.smalaca.orderpreparation.sharedkernel;
 
-import com.smalaca.annotation.ddd.ValueObject;
+import com.smalaca.productsmanagement.command.domain.assortment.Price;
 import com.smalaca.productsmanagement.command.domain.assortment.Quantity;
 
 import lombok.Value;
 
-// todo maybe not shared kernel, product in order != shopping list
-@ValueObject
 @Value(staticConstructor = "of")
-public class Product {
+public class ChosenProduct {
 
     private final ProductId id;
+
+    private final Price price;
 
     private final Quantity quantity;
 

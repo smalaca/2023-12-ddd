@@ -4,6 +4,7 @@ import com.smalaca.annotation.ddd.ValueObject;
 
 import lombok.Value;
 
+// TODO possible shared kernel ?
 @ValueObject
 @Value(staticConstructor = "of")
 public class Quantity {

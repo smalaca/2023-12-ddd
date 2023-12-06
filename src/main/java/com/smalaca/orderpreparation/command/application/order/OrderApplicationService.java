@@ -4,21 +4,21 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.smalaca.annotation.ddd.Factory;
-import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.domain.order.Order;
 import com.smalaca.orderpreparation.command.domain.order.OrderId;
 import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
 import com.smalaca.orderpreparation.command.domain.order.OrderRepository;
-import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
-import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
+import com.smalaca.orderpreparation.command.domain.products.ProductsAvailabilityValidator;
+import com.smalaca.orderpreparation.command.domain.products.ProductsReservationService;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
 import com.smalaca.sharedkernel.CustomerId;
+import com.smalaca.sharedkernel.domain.eventbus.EventBus;
 
 import lombok.AllArgsConstructor;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 public class OrderApplicationService {
