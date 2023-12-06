@@ -1,8 +1,8 @@
 package com.smalaca.orderpreparation.command.application.order;
 
-import lombok.Value;
-
 import java.util.UUID;
+
+import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class AcceptProductsCommand {
