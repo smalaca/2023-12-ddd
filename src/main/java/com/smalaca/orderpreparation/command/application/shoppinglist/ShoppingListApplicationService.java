@@ -10,6 +10,8 @@ import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @AllArgsConstructor
 public class ShoppingListApplicationService {
 
@@ -19,6 +21,7 @@ public class ShoppingListApplicationService {
 
     private final Function<CustomerId, String> randomNumberGenerator = customerId -> customerId.getId().toString() + UUID.randomUUID();
 
+    @Transactional
     public UUID approve(final ApproveCartCommand command) {
         ShoppingList shoppingList = ShoppingList.of(repository.generateId(), randomNumberGenerator, command.getCustomer(), command.getProducts(), eventBus);
 

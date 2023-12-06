@@ -7,6 +7,7 @@ import com.smalaca.productsmanagement.command.domain.assortment.Quantity;
 
 import lombok.Value;
 
+// todo maybe not shared kernel, order != shopping list
 @ValueObject
 @Value(staticConstructor = "of")
 public class Product {

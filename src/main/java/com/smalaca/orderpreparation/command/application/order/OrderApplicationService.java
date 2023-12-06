@@ -16,6 +16,8 @@ import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @AllArgsConstructor
 public class OrderApplicationService {
 
@@ -31,6 +33,7 @@ public class OrderApplicationService {
 
     private final EventBus eventBus;
 
+    @Transactional
     public OrderId accept(final AcceptProductsCommand command) {
         ShoppingList shoppingList = shoppingListAccessor.read(command.getShoppingListId());
 
