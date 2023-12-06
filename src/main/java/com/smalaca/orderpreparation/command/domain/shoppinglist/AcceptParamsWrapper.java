@@ -14,6 +14,7 @@ import com.smalaca.sharedkernel.domain.time.TimeProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+// todo: name?
 @Getter
 @AllArgsConstructor
 public class AcceptParamsWrapper {

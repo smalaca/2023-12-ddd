@@ -17,6 +17,7 @@ import com.smalaca.orderpreparation.sharedkernel.Product;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.sharedkernel.domain.eventbus.EventBus;
 import com.smalaca.sharedkernel.domain.eventbus.EventId;
+import com.smalaca.sharedkernel.domain.time.TimeProvider;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.Valid;
@@ -42,9 +43,10 @@ public class ShoppingList {
     private final List<ChosenProduct> products;
 
     @Factory
-    public static ShoppingList of(final ShoppingListId id, final ShoppingListNumber number, final List<ChosenProduct> products, final EventBus eventBus) {
+    public static ShoppingList of(final ShoppingListId id, final ShoppingListNumber number, final List<ChosenProduct> products,
+                                  final TimeProvider timeProvider, final EventBus eventBus) {
         ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, number, products));
-        eventBus.fire(ProductsSelectedEvent.of(toProducts(products)));
+        eventBus.fire(ProductsSelectedEvent.of(EventId.of(), timeProvider.currentTime(), toProducts(products)));
         return shoppingList;
     }
 

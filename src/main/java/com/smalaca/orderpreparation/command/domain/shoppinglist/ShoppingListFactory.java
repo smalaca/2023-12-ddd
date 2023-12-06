@@ -12,6 +12,7 @@ import com.smalaca.orderpreparation.sharedkernel.Product;
 import com.smalaca.productsmanagement.command.domain.assortment.Price;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.sharedkernel.domain.eventbus.EventBus;
+import com.smalaca.sharedkernel.domain.time.TimeProvider;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +25,8 @@ public class ShoppingListFactory {
 
     private final EventBus eventBus;
 
+    private final TimeProvider timeProvider;
+
     @Factory
     private final Function<CustomerId, ShoppingListNumber> randomNumberGenerator =
         customerId -> ShoppingListNumber.of(String.join("-", customerId.getId().toString(), UUID.randomUUID().toString()));
@@ -32,7 +35,7 @@ public class ShoppingListFactory {
     public ShoppingList create(final CustomerId customer, final List<Product> products) {
         ShoppingListNumber number = randomNumberGenerator.apply(customer);
         List<ChosenProduct> chosenProducts = toChosenProducts(products);
-        return ShoppingList.of(repository.generateId(), number, chosenProducts, eventBus);
+        return ShoppingList.of(repository.generateId(), number, chosenProducts, timeProvider, eventBus);
     }
 
     private List<ChosenProduct> toChosenProducts(final List<Product> products) {

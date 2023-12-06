@@ -44,12 +44,12 @@ public class OrderApplicationService {
     @Transactional
     public OrderId accept(final AcceptProductsCommand command) {
         ShoppingList shoppingList = shoppingListAccessor.read(command.getShoppingListId());
-        AcceptParamsWrapper paramsWrapper = new AcceptParamsWrapper(
+        AcceptParamsWrapper acceptParamsWrapper = new AcceptParamsWrapper(
             repository.generateId(), command.getParams(), command.getCustomer(),
             timeProvider, eventBus, randomNumberGenerator, productsReservationService, productsAvailabilityValidator
         );
 
-        Optional<Order> order = shoppingList.accept(paramsWrapper);
+        Optional<Order> order = shoppingList.accept(acceptParamsWrapper);
 
         order.ifPresent(repository::save);
         return order.map(Order::getId).orElse(null); // todo or throw ex
