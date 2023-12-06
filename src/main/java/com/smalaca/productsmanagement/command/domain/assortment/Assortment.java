@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
 import com.smalaca.annotation.ddd.AggregateRoot;
+import com.smalaca.productsmanagement.command.application.assortment.NewProductCommand;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,8 @@ public class Assortment {
     }
 
     @PrimaryPort
-    public void addProduct() {
-
+    public void addProduct(final NewProductCommand.NewProductParams params) {
+        this.products.add(Product.of(params.getName(), params.getDescription(), params.getPrice(), params.getQuantity()));
     }
+
 }

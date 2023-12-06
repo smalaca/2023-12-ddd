@@ -1,11 +1,11 @@
-package com.smalaca.orderpreparation.infrastructure.producttoorder.repository;
+package com.smalaca.orderpreparation.infrastructure.shoppinglist.repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.smalaca.orderpreparation.command.domain.producttoorder.ShoppingList;
-import com.smalaca.orderpreparation.command.domain.producttoorder.ShoppingListRepository;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
 
 import lombok.AllArgsConstructor;
 

@@ -8,8 +8,8 @@ import com.smalaca.orderpreparation.command.domain.order.Order;
 import com.smalaca.orderpreparation.command.domain.order.OrderRepository;
 import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
-import com.smalaca.orderpreparation.command.domain.producttoorder.ShoppingList;
-import com.smalaca.orderpreparation.command.domain.producttoorder.ShoppingListRepository;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -29,9 +29,12 @@ public class OrderApplicationService {
     public UUID accept(final AcceptProductsCommand command) {
         ShoppingList shoppingList = shoppingListAccessor.read(command.getShoppingListId());
 
-        Optional<Order> order = shoppingList.acceptProducts(repository.generateId(), eventBus, productsReservationService, productsAvailabilityValidator);
+        Optional<Order> order = shoppingList.accept(repository.generateId(),
+                                                    command.getCustomer(),
+                                                    command.getParams(),
+                                                    eventBus, productsReservationService, productsAvailabilityValidator);
 
         order.ifPresent(repository::save);
-        return order.map(Order::getId).orElse(null);
+        return order.map(Order::getId).orElse(null); // todo or throw ex
     }
 }

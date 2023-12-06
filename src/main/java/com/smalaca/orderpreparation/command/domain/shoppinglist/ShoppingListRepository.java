@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.command.domain.producttoorder;
+package com.smalaca.orderpreparation.command.domain.shoppinglist;
 
 import java.util.UUID;
 
