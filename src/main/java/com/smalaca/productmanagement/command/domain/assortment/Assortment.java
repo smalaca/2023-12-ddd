@@ -2,6 +2,7 @@ package com.smalaca.productmanagement.command.domain.assortment;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
 import com.smalaca.annotation.ddd.AggregateRoot;
+import com.smalaca.productmanagement.command.domain.eventpublisher.EventPublisher;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductDto;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductValidation;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductValidationResponse;
@@ -17,12 +18,16 @@ public class Assortment {
     private Map<Product, Amount> products = new HashMap<>();
 
     @PrimaryPort
-    public void addProduct(Amount amount, Price price, String name, String description, ProductValidation productValidation) {
+    public void addProduct(
+            Amount amount, Price price, String name, String description, ProductValidation productValidation, EventPublisher eventPublisher) {
         ProductValidationResponse response = productValidation.verify(new ProductDto(name, price.value()));
 
         if (response.isValid()) {
             Product product = new Product(name, price, description);
             products.put(product, amount);
+            eventPublisher.publish(ProductAdded.create(assortmentId));
+        } else {
+            eventPublisher.publish(InvalidProductRecognized.create(assortmentId, name, price));
         }
     }
 }

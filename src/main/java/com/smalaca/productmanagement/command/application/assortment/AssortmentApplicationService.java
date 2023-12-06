@@ -5,6 +5,7 @@ import com.smalaca.productmanagement.command.domain.assortment.Amount;
 import com.smalaca.productmanagement.command.domain.assortment.Assortment;
 import com.smalaca.productmanagement.command.domain.assortment.AssortmentRepository;
 import com.smalaca.productmanagement.command.domain.assortment.Price;
+import com.smalaca.productmanagement.command.domain.eventpublisher.EventPublisher;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductValidation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +15,13 @@ import java.util.UUID;
 public class AssortmentApplicationService {
     private final AssortmentRepository assortmentRepository;
     private final ProductValidation productValidation;
+    private final EventPublisher eventPublisher;
 
-    public AssortmentApplicationService(AssortmentRepository assortmentRepository, ProductValidation productValidation) {
+    public AssortmentApplicationService(
+            AssortmentRepository assortmentRepository, ProductValidation productValidation, EventPublisher eventPublisher) {
         this.assortmentRepository = assortmentRepository;
         this.productValidation = productValidation;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -30,7 +34,7 @@ public class AssortmentApplicationService {
         Price price = new Price(command.price());
 
         // wywołanie metody z domeny [1]
-        assortment.addProduct(amount, price, command.name(), command.description(), productValidation);
+        assortment.addProduct(amount, price, command.name(), command.description(), productValidation, eventPublisher);
 
         // zapis agregatów [1...*] LUB/I opublikowanie zdarzeń [1]
         return assortmentRepository.save(assortment);
