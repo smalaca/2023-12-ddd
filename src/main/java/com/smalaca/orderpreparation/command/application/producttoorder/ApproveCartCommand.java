@@ -7,6 +7,6 @@ import lombok.Value;
 @Value(staticConstructor = "of")
 public class ApproveCartCommand {
 
-    private final UUID cardId;
+    private final UUID cartId;
 
 }
