@@ -18,6 +18,12 @@ public class ProductsToOrderApplicationService {
         this.offerRepository = offerRepository;
     }
 
+    public UUID confirm(ConfirmChoiceCommand command) {
+        ProductsToOrder productsToOrder = new ProductsToOrder();
+
+        return productsToOrderRepository.save(productsToOrder);
+    }
+
     public UUID accept(UUID productsToOrderId) {
         ProductsToOrder productsToOrder = productsToOrderRepository.findById(productsToOrderId);
 

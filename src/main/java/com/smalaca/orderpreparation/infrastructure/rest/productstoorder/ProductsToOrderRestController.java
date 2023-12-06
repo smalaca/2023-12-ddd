@@ -1,5 +1,6 @@
 package com.smalaca.orderpreparation.infrastructure.rest.productstoorder;
 
+import com.smalaca.orderpreparation.command.application.productstoorder.ConfirmChoiceCommand;
 import com.smalaca.orderpreparation.command.application.productstoorder.ProductsToOrderApplicationService;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,4 +18,7 @@ public class ProductsToOrderRestController {
         return productsToOrderApplicationService.accept(productsToOrderId);
     }
 
+    public UUID confirm(ConfirmChoiceCommand command) {
+        return productsToOrderApplicationService.confirm(command);
+    }
 }

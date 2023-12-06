@@ -12,4 +12,9 @@ public class SpringDataProductsToOrderRepository implements ProductsToOrderRepos
     public ProductsToOrder findById(UUID productsToOrderId) {
         return null;
     }
+
+    @Override
+    public UUID save(ProductsToOrder productsToOrder) {
+        return null;
+    }
 }

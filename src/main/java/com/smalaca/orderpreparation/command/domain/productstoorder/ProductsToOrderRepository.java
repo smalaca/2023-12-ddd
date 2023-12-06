@@ -9,4 +9,6 @@ import java.util.UUID;
 @SecondaryPort
 public interface ProductsToOrderRepository {
     ProductsToOrder findById(UUID productsToOrderId);
+
+    UUID save(ProductsToOrder productsToOrder);
 }
