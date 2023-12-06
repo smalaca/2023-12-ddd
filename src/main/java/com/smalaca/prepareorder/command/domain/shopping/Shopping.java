@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Shopping {
 
     private UUID ID;
-    private Map<UUID,Integer> listOfProductsWithAmount;
+    private Map<Product,Integer> listOfProductsWithAmount;
 
     public Shopping(UUID buyerID) {
         this.ID = UUID.fromString(buyerID.toString()+listOfProductsWithAmount.hashCode());
