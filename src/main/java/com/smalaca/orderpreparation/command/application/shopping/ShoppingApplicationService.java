@@ -27,8 +27,8 @@ public class ShoppingApplicationService {
     }
 
     @Transactional
-    public UUID accept(UUID shoppingId) {
-        Shopping shopping = shoppingRepository.findById(shoppingId);
+    public UUID accept(AcceptShoppingCommand command) {
+        Shopping shopping = shoppingRepository.findById(command.shoppingId());
 
         Disposal disposal = shopping.accept();
 

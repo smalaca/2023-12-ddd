@@ -1,5 +1,6 @@
 package com.smalaca.orderpreparation.infrastructure.rest.shopping;
 
+import com.smalaca.orderpreparation.command.application.shopping.AcceptShoppingCommand;
 import com.smalaca.orderpreparation.command.application.shopping.ConfirmChoiceCommand;
 import com.smalaca.orderpreparation.command.application.shopping.ShoppingApplicationService;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,8 @@ public class ShoppingRestController {
         this.shoppingApplicationService = shoppingApplicationService;
     }
 
-    public UUID accept(UUID shoppingId) {
-        return shoppingApplicationService.accept(shoppingId);
+    public UUID accept(AcceptShoppingCommand command) {
+        return shoppingApplicationService.accept(command);
     }
 
     public UUID confirm(ConfirmChoiceCommand command) {
