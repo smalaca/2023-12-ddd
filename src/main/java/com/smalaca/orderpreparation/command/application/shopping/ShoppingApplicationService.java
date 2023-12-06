@@ -4,14 +4,12 @@ import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
 import com.smalaca.orderpreparation.command.domain.disposal.DisposalRepository;
 import com.smalaca.orderpreparation.command.domain.eventpublisher.EventPublisher;
-import com.smalaca.orderpreparation.command.domain.product.Product;
 import com.smalaca.orderpreparation.command.domain.productmanagement.ProductManagement;
 import com.smalaca.orderpreparation.command.domain.shopping.Shopping;
 import com.smalaca.orderpreparation.command.domain.shopping.ShoppingFactory;
 import com.smalaca.orderpreparation.command.domain.shopping.ShoppingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @PrimaryAdapter
@@ -34,9 +32,7 @@ public class ShoppingApplicationService {
 
     @Transactional
     public UUID confirm(ConfirmChoiceCommand command) {
-        List<Product> products = command.asProducts();
-
-        Shopping shopping = shoppingFactory.create(command.buyerId(), products);
+        Shopping shopping = shoppingFactory.create(command.buyerId(), command.products());
 
         return shoppingRepository.save(shopping);
     }
