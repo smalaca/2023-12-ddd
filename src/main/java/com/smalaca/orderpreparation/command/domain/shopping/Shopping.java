@@ -13,9 +13,11 @@ import java.util.UUID;
 @AggregateRoot
 public class Shopping {
     private UUID shoppingId;
+    private final ShoppingNumber shoppingNumber;
     private final List<Product> products;
 
-    Shopping(List<Product> products) {
+    Shopping(ShoppingNumber shoppingNumber, List<Product> products) {
+        this.shoppingNumber = shoppingNumber;
         this.products = products;
     }
 

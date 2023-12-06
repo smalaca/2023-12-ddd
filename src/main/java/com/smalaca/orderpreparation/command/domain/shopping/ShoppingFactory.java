@@ -8,6 +8,12 @@ import java.util.List;
 @Factory
 public class ShoppingFactory {
     public Shopping create(List<Product> products) {
-        return new Shopping(products);
+        return new Shopping(shoppingNumber(), products);
     }
+
+    private ShoppingNumber shoppingNumber() {
+        return ShoppingNumber.create();
+    }
+
+
 }
