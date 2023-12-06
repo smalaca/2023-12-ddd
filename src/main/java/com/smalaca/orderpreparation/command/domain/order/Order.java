@@ -1,5 +1,6 @@
 package com.smalaca.orderpreparation.command.domain.order;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.smalaca.annotation.ddd.AggregateRoot;
@@ -30,7 +31,7 @@ public class Order {
             eventBus.fire(ProductUnavailableEvent.of(products));
             return;
         }
-        productsReservationService.book(products);
+        productsReservationService.book(List.of());
         eventBus.fire(PurchaseAcceptedEvent.of(products));
     }
 
