@@ -5,6 +5,7 @@ import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
 import com.smalaca.orderpreparation.command.domain.disposal.DisposalRepository;
 import com.smalaca.orderpreparation.command.domain.product.Product;
 import com.smalaca.orderpreparation.command.domain.shopping.Shopping;
+import com.smalaca.orderpreparation.command.domain.shopping.ShoppingFactory;
 import com.smalaca.orderpreparation.command.domain.shopping.ShoppingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +16,20 @@ import java.util.UUID;
 public class ShoppingApplicationService {
     private final ShoppingRepository shoppingRepository;
     private final DisposalRepository disposalRepository;
+    private final ShoppingFactory shoppingFactory;
 
-    public ShoppingApplicationService(ShoppingRepository shoppingRepository, DisposalRepository disposalRepository) {
+    public ShoppingApplicationService(
+            ShoppingRepository shoppingRepository, DisposalRepository disposalRepository, ShoppingFactory shoppingFactory) {
         this.shoppingRepository = shoppingRepository;
         this.disposalRepository = disposalRepository;
+        this.shoppingFactory = shoppingFactory;
     }
 
     @Transactional
     public UUID confirm(ConfirmChoiceCommand command) {
         List<Product> products = command.asProducts();
 
-        Shopping shopping = new Shopping(products);
+        Shopping shopping = shoppingFactory.create(products);
 
         return shoppingRepository.save(shopping);
     }

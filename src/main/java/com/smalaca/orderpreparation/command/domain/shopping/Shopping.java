@@ -15,7 +15,7 @@ public class Shopping {
     private UUID shoppingId;
     private final List<Product> products;
 
-    public Shopping(List<Product> products) {
+    Shopping(List<Product> products) {
         this.products = products;
     }
 
