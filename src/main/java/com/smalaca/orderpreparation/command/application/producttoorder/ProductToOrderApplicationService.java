@@ -13,7 +13,7 @@ public class ProductToOrderApplicationService {
     private final ProductsToOrderRepository repository;
 
     public UUID approve(final ApproveCartCommand command) {
-        ProductsToOrder productsToOrder = repository.read();
+        ProductsToOrder productsToOrder = repository.read(command.getCardId());
 
         productsToOrder.approve(new Object());
 
