@@ -5,6 +5,7 @@ import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.prepareorder.command.application.disposition.AddressVO;
 import com.smalaca.prepareorder.command.domain.disposition.Disposition;
+import com.smalaca.prepareorder.command.domain.product.ProductVO;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.UUID;
 public class Shopping {
 
     private UUID ID;
-    private Map<Product,Integer> listOfProductsWithAmount;
+    private Map<ProductVO,Integer> listOfProductsWithAmount;
 
     public Shopping(UUID buyerID) {
         this.ID = UUID.fromString(buyerID.toString()+listOfProductsWithAmount.hashCode());

@@ -1,4 +1,4 @@
-package com.smalaca.prepareorder.command.domain.disposition;
+package com.smalaca.prepareorder.command.domain.product;
 
 import com.smalaca.annotation.ddd.ValueObject;
 
