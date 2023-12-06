@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-public record PaymentEvent(List<Item> items) {
+public record PaymentEvent(UUID eventID,List<Item> items) {
     public record Item(UUID productID, Integer amount, BigDecimal price){}
 }
 
