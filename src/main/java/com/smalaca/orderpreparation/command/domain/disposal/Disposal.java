@@ -1,7 +1,7 @@
 package com.smalaca.orderpreparation.command.domain.disposal;
 
 import com.smalaca.annotation.ddd.AggregateRoot;
-import com.smalaca.orderpreparation.command.domain.shopping.Product;
+import com.smalaca.orderpreparation.command.domain.product.Product;
 
 import java.util.List;
 import java.util.UUID;

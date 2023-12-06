@@ -5,6 +5,7 @@ import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.orderpreparation.command.domain.disposal.AcceptShoppingDomainCommand;
 import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
+import com.smalaca.orderpreparation.command.domain.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;

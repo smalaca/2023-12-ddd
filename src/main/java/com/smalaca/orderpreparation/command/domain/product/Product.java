@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.command.domain.shopping;
+package com.smalaca.orderpreparation.command.domain.product;
 
 import com.smalaca.annotation.ddd.ValueObject;
 
