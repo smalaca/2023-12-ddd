@@ -27,7 +27,7 @@ public class AssortmentApplicationService {
         Price price = new Price(command.price());
 
         // wywołanie metody z domeny [1]
-        assortment.addProduct(amount, price);
+        assortment.addProduct(amount, price, command.name(), command.description());
 
         // zapis agregatów [1...*] LUB/I opublikowanie zdarzeń [1]
         return assortmentRepository.save(assortment);

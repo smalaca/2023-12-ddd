@@ -11,7 +11,9 @@ public class Assortment {
     private Map<Product, Amount> products = new HashMap<>();
 
     @PrimaryPort
-    public void addProduct(Amount amount, Price price) {
-        products.put(new Product(price), amount);
+    public void addProduct(Amount amount, Price price, String name, String description) {
+        Product product = new Product(name, price, description);
+
+        products.put(product, amount);
     }
 }

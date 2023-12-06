@@ -1,9 +1,16 @@
 package com.smalaca.productmanagement.command.domain.assortment;
 
-class Product {
-    private final Price price;
+import com.smalaca.annotation.ddd.DomainEntity;
 
-    Product(Price price) {
+@DomainEntity
+class Product {
+    private final String name;
+    private final Price price;
+    private final String description;
+
+    Product(String name, Price price, String description) {
+        this.name = name;
         this.price = price;
+        this.description = description;
     }
 }
