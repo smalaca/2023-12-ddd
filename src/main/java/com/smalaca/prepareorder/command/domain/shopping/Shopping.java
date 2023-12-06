@@ -18,7 +18,7 @@ public class Shopping {
     private Map<ProductVO,Integer> listOfProductsWithAmount;
 
     public Shopping(UUID buyerID) {
-        this.ID = UUID.fromString(buyerID.toString()+listOfProductsWithAmount.hashCode());
+        this.ID = UUID.fromString(buyerID.toString());
     }
 
     @PrimaryPort
