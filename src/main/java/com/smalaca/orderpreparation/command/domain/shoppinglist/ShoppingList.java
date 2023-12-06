@@ -49,6 +49,7 @@ public class ShoppingList {
     }
 
     @PrimaryPort
+    @Factory
     public Optional<Order> accept(final OrderId orderId,
                                   final Function<CustomerId, String> randomNumberGenerator,
                                   final CustomerId customer,
