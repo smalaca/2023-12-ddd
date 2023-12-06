@@ -5,6 +5,7 @@ import com.smalaca.orderpreparation.command.application.shopping.ConfirmChoiceCo
 import com.smalaca.orderpreparation.command.application.shopping.ShoppingApplicationService;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -19,7 +20,13 @@ public class ShoppingRestController {
         return shoppingApplicationService.accept(command);
     }
 
-    public UUID confirm(ConfirmChoiceCommand command) {
+    public UUID confirm(Map<UUID, Integer> products) {
+        ConfirmChoiceCommand command = new ConfirmChoiceCommand(buyerId(), products);
         return shoppingApplicationService.confirm(command);
+    }
+
+    private UUID buyerId() {
+        // get it from the session context
+        return null;
     }
 }
