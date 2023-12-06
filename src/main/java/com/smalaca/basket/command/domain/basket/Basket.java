@@ -9,4 +9,9 @@ public class Basket {
     public void addProduct() {
 
     }
+
+    @PrimaryPort
+    public void removeProduct() {
+
+    }
 }

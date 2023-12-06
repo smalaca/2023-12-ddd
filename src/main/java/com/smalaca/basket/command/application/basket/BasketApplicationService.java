@@ -19,4 +19,12 @@ public class BasketApplicationService {
 
         repository.save(basket);
     }
+
+    public void removeProduct(RemoveProductCommand command) {
+        Basket basket = repository.findById(command.basketId());
+
+        basket.removeProduct();
+
+        repository.save(basket);
+    }
 }
