@@ -17,7 +17,7 @@ public class BasketApplicationService {
 
         basket.addProduct();
 
-        repository.save(basket);
+        repository.update(basket);
     }
 
     public void removeProduct(RemoveProductCommand command) {
@@ -25,6 +25,6 @@ public class BasketApplicationService {
 
         basket.removeProduct();
 
-        repository.save(basket);
+        repository.update(basket);
     }
 }

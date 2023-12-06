@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface BasketRepository {
     Basket findById(UUID uuid);
 
-    void save(Basket basket);
+    void update(Basket basket);
 }

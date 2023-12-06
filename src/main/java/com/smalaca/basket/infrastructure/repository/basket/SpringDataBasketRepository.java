@@ -14,7 +14,7 @@ public class SpringDataBasketRepository implements BasketRepository {
     }
 
     @Override
-    public void save(Basket basket) {
+    public void update(Basket basket) {
 
     }
 }
