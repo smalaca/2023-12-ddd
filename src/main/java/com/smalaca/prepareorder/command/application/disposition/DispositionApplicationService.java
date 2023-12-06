@@ -8,11 +8,11 @@ import java.util.UUID;
 
 
 @PrimaryAdapter
-public class PrepareOrderApplicationService {
+public class DispositionApplicationService {
 
     private final DispositionRepository dispositionRepository;
 
-    public PrepareOrderApplicationService(DispositionRepository dispositionRepository) {
+    public DispositionApplicationService(DispositionRepository dispositionRepository) {
         this.dispositionRepository = dispositionRepository;
     }
 
