@@ -4,9 +4,13 @@ import com.smalaca.annotation.ddd.ValueObject;
 
 @ValueObject
 class Amount {
-    private final Integer amount;
+    private final Integer value;
 
-    Amount(Integer amount) {
-        this.amount = amount;
+    Amount(Integer value) {
+        this.value = value;
+    }
+
+    Integer value() {
+        return value;
     }
 }
