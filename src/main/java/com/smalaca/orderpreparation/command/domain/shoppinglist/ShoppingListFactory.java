@@ -9,6 +9,7 @@ import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.orderpreparation.command.domain.products.ProductsPriceAccessor;
 import com.smalaca.orderpreparation.sharedkernel.ChosenProduct;
 import com.smalaca.orderpreparation.sharedkernel.Product;
+import com.smalaca.productsmanagement.command.domain.assortment.Price;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.sharedkernel.domain.eventbus.EventBus;
 
@@ -35,8 +36,12 @@ public class ShoppingListFactory {
     }
 
     private List<ChosenProduct> toChosenProducts(final List<Product> products) {
-        return products.stream()
-                       .map(product -> ChosenProduct.of(product.getId(), productsPriceAccessor.get(product.getId()), product.getQuantity()))
-                       .collect(Collectors.toList());
+        return products.stream().map(this::toProduct).collect(Collectors.toList());
     }
+
+    private ChosenProduct toProduct(final Product product) {
+        Price price = productsPriceAccessor.get(product.getId());
+        return ChosenProduct.of(product.getId(), price, product.getQuantity());
+    }
+
 }

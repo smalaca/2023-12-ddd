@@ -1,5 +1,6 @@
 package com.smalaca.orderpreparation.command.domain.order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.smalaca.annotation.ddd.DomainEvent;
@@ -15,7 +16,10 @@ public class ProductsNotFoundEvent {
 
     private final EventId id;
 
+    private final LocalDateTime occurrenceTime;
+
     private final CustomerId customer;
 
     private final List<Product> products;
+
 }

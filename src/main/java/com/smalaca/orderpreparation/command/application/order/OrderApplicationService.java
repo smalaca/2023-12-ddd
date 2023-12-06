@@ -13,10 +13,12 @@ import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
 import com.smalaca.orderpreparation.command.domain.order.OrderRepository;
 import com.smalaca.orderpreparation.command.domain.products.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.products.ProductsReservationService;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.AcceptParamsWrapper;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.sharedkernel.domain.eventbus.EventBus;
+import com.smalaca.sharedkernel.domain.time.TimeProvider;
 
 import lombok.AllArgsConstructor;
 
@@ -31,6 +33,8 @@ public class OrderApplicationService {
 
     private final ProductsReservationService productsReservationService;
 
+    private final TimeProvider timeProvider;
+
     @Factory
     private final Function<CustomerId, OrderNumber> randomNumberGenerator =
         customerId -> OrderNumber.of(String.join("-", customerId.getId().toString(), UUID.randomUUID().toString()));
@@ -40,11 +44,12 @@ public class OrderApplicationService {
     @Transactional
     public OrderId accept(final AcceptProductsCommand command) {
         ShoppingList shoppingList = shoppingListAccessor.read(command.getShoppingListId());
-
-        Optional<Order> order = shoppingList.accept(repository.generateId(), randomNumberGenerator,
-                                                    command.getCustomer(), command.getParams(),
-                                                    eventBus, productsReservationService, productsAvailabilityValidator
+        AcceptParamsWrapper paramsWrapper = new AcceptParamsWrapper(
+            repository.generateId(), command.getParams(), command.getCustomer(),
+            timeProvider, eventBus, randomNumberGenerator, productsReservationService, productsAvailabilityValidator
         );
+
+        Optional<Order> order = shoppingList.accept(paramsWrapper);
 
         order.ifPresent(repository::save);
         return order.map(Order::getId).orElse(null); // todo or throw ex

@@ -1,8 +1,8 @@
 package com.smalaca.orderpreparation.command.domain.shoppinglist;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
@@ -10,12 +10,8 @@ import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.orderpreparation.command.application.order.AcceptProductsCommand;
 import com.smalaca.orderpreparation.command.domain.order.Order;
-import com.smalaca.orderpreparation.command.domain.order.OrderId;
-import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
 import com.smalaca.orderpreparation.command.domain.order.ProductsNotFoundEvent;
 import com.smalaca.orderpreparation.command.domain.order.PurchaseAcceptedEvent;
-import com.smalaca.orderpreparation.command.domain.products.ProductsAvailabilityValidator;
-import com.smalaca.orderpreparation.command.domain.products.ProductsReservationService;
 import com.smalaca.orderpreparation.sharedkernel.ChosenProduct;
 import com.smalaca.orderpreparation.sharedkernel.Product;
 import com.smalaca.sharedkernel.CustomerId;
@@ -54,21 +50,28 @@ public class ShoppingList {
 
     @Factory
     @PrimaryPort
-    public Optional<Order> accept(final OrderId orderId,
-                                  final Function<CustomerId, OrderNumber> randomNumberGenerator,
-                                  final CustomerId customer,
-                                  final AcceptProductsCommand.AcceptParams params,
-                                  final EventBus eventBus,
-                                  final ProductsReservationService productsReservationService,
-                                  final ProductsAvailabilityValidator productsAvailabilityValidator) {
-        if(productsAvailabilityValidator.isInvalid(toProducts(products))) {
-            eventBus.fire(ProductsNotFoundEvent.of(EventId.of(), customer, toProducts(products)));
+    public Optional<Order> accept(final AcceptParamsWrapper paramsWrapper) {
+        if(paramsWrapper.getProductsAvailabilityValidator().isInvalid(toProducts(products))) {
+            unavailableProducts(paramsWrapper);
             return Optional.empty();
         }
-        productsReservationService.book(toProducts(products));
-        eventBus.fire(PurchaseAcceptedEvent.of(EventId.of(), customer, products));
-        Order order = Order.of(orderId, id, customer, randomNumberGenerator, params.getDeliveryInfo(), params.getPaymentType(), products);
-        return Optional.of(order);
+        return Optional.of(createOrder(paramsWrapper));
+    }
+
+    private void unavailableProducts(final AcceptParamsWrapper paramsWrapper) {
+        CustomerId customer = paramsWrapper.getCustomer();
+        LocalDateTime occurrenceTime = paramsWrapper.getTimeProvider().currentTime();
+        paramsWrapper.getEventBus().fire(ProductsNotFoundEvent.of(EventId.of(), occurrenceTime, customer, toProducts(products)));
+    }
+
+    private Order createOrder(final AcceptParamsWrapper wrapper) {
+        AcceptProductsCommand.AcceptParams params = wrapper.getParams();
+        CustomerId customer = wrapper.getCustomer();
+        LocalDateTime occurrenceTime = wrapper.getTimeProvider().currentTime();
+
+        wrapper.getProductsReservationService().book(toProducts(products));
+        wrapper.getEventBus().fire(PurchaseAcceptedEvent.of(EventId.of(), occurrenceTime, customer, products));
+        return Order.of(wrapper.getOrderId(), id, customer, wrapper.getRandomNumberGenerator(), params.getDeliveryInfo(), params.getPaymentType(), products);
     }
 
     private static List<Product> toProducts(final List<ChosenProduct> products) {
