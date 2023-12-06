@@ -3,6 +3,8 @@ package com.smalaca.prepareorder.command.application.disposition;
 import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.prepareorder.command.domain.disposition.Disposition;
 import com.smalaca.prepareorder.command.domain.disposition.DispositionRepository;
+import com.smalaca.prepareorder.command.domain.shopping.Shopping;
+import com.smalaca.prepareorder.command.domain.shopping.ShoppingRepository;
 
 import java.util.UUID;
 
@@ -11,19 +13,27 @@ import java.util.UUID;
 public class DispositionApplicationService {
 
     private final DispositionRepository dispositionRepository;
+    private final ShoppingRepository shoppingRepository;
 
-    public DispositionApplicationService(DispositionRepository dispositionRepository) {
+
+    public DispositionApplicationService(DispositionRepository dispositionRepository, ShoppingRepository shoppingRepository) {
         this.dispositionRepository = dispositionRepository;
+        this.shoppingRepository = shoppingRepository;
     }
 
-    public UUID confirmProducts(ConfirmationOfProductsCommand confirmationOfProductsCommand) {
+    public UUID confirmProducts(DispositionCommand dispositionCommand) {
 
-        Disposition disposition = new Disposition();
+        Shopping shopping = shoppingRepository.findById(dispositionCommand.shoppingId());
 
-        disposition.confirmProducts(confirmationOfProductsCommand.listOfProducts(), confirmationOfProductsCommand.transportType(),confirmationOfProductsCommand.addressVO(), confirmationOfProductsCommand.paymentType());
+        Disposition disposition = shopping.confirmProducts(dispositionCommand.transportType(), dispositionCommand.addressVO(), dispositionCommand.paymentType());
 
-        dispositionRepository.save(disposition);
+        if (disposition != null) {
+            dispositionRepository.save(disposition);
 
-        return disposition.getID();
+            return disposition.getID();
+        }
+        else{
+            return null;
+        }
     }
 }

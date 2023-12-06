@@ -11,8 +11,6 @@ import java.util.UUID;
 public class Disposition {
 
     private UUID ID;
-    @PrimaryPort
-    public UUID  confirmProducts(List<UUID> listOfProducts, String transportType, AddressVO addressVO, String paymentType){return null;}
 
     public UUID getID() {
         return ID;
