@@ -29,8 +29,8 @@ public class PrepareOrderRestController {
     }
 
     @PostMapping
-    public UUID confirmChose(ShoppingCommand shoppingCommand){
-        return shoppingApplicationService.confirmChose(shoppingCommand);
+    public UUID confirmChoice(ShoppingCommand shoppingCommand){
+        return shoppingApplicationService.confirmChoice(shoppingCommand);
     }
 
 
