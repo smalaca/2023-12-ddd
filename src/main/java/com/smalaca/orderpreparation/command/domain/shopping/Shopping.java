@@ -32,7 +32,11 @@ public class Shopping {
         BookingResponse response = command.productManagement().book(productsToBook);
 
         if (response.bookedAll()) {
+            command.eventPublisher().publish(ShoppingAccepted.create(shoppingId, shoppingNumber));
             return new Disposal(shoppingId, products, command);
+        } else {
+            command.eventPublisher().publish(ProductsNotFound.create(shoppingId, shoppingNumber, response.missingProducts()));
+            throw new MissingProductsException(response.missingProducts());
         }
     }
 }
