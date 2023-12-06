@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.command.domain.deliverytype;
+package com.smalaca.orderpreparation.command.domain.disposal;
 
 import com.smalaca.annotation.ddd.ValueObject;
 
