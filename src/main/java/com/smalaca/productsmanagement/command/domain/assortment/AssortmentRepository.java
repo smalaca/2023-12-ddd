@@ -8,6 +8,6 @@ import com.smalaca.annotation.ddd.DomainRepository;
 @SecondaryPort
 @DomainRepository
 public interface AssortmentRepository {
-    UUID save(Assortment assortment);
+    void save(Assortment assortment);
     Assortment read(UUID is);
 }

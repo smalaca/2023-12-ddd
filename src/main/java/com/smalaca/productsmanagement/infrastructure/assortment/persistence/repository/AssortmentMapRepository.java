@@ -15,9 +15,8 @@ public class AssortmentMapRepository implements AssortmentRepository {
     private final Map<UUID, Assortment> store = new HashMap<>();
 
     @Override
-    public UUID save(final Assortment assortment) {
+    public void save(final Assortment assortment) {
         store.put(assortment.getId(), assortment);
-        return assortment.getId();
     }
 
     @Override
