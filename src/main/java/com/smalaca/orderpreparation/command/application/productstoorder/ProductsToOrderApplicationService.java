@@ -5,6 +5,7 @@ import com.smalaca.orderpreparation.command.domain.offer.Offer;
 import com.smalaca.orderpreparation.command.domain.offer.OfferRepository;
 import com.smalaca.orderpreparation.command.domain.productstoorder.ProductsToOrder;
 import com.smalaca.orderpreparation.command.domain.productstoorder.ProductsToOrderRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,12 +19,14 @@ public class ProductsToOrderApplicationService {
         this.offerRepository = offerRepository;
     }
 
+    @Transactional
     public UUID confirm(ConfirmChoiceCommand command) {
         ProductsToOrder productsToOrder = new ProductsToOrder();
 
         return productsToOrderRepository.save(productsToOrder);
     }
 
+    @Transactional
     public UUID accept(UUID productsToOrderId) {
         ProductsToOrder productsToOrder = productsToOrderRepository.findById(productsToOrderId);
 
