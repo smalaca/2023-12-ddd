@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.infrastructure.producttoorder;
+package com.smalaca.orderpreparation.infrastructure.producttoorder.delivery.http;
 
 import java.util.UUID;
 
@@ -11,8 +11,8 @@ import com.smalaca.orderpreparation.command.application.producttoorder.ProductTo
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-@RestController(value = "/products-to-approve")
-public class ProductToOrderHttpEndpoint {
+@RestController(value = "/shopping-list")
+public class ShoppingListHttpEndpoint {
 
     private final ProductToOrderApplicationService service;
 

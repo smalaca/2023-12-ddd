@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.infrastructure.order;
+package com.smalaca.orderpreparation.infrastructure.order.delivery.http;
 
 import java.util.UUID;
 

@@ -1,13 +1,13 @@
 package com.smalaca.productsmanagement.infrastructure.assortment.persistence.repository;
 
-import lombok.AllArgsConstructor;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import com.smalaca.productsmanagement.command.domain.assortment.Assortment;
 import com.smalaca.productsmanagement.command.domain.assortment.AssortmentRepository;
+
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AssortmentMapRepository implements AssortmentRepository {

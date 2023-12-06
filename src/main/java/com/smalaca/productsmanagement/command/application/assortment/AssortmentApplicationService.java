@@ -1,12 +1,12 @@
 package com.smalaca.productsmanagement.command.application.assortment;
 
-import lombok.AllArgsConstructor;
-
 import java.util.UUID;
 
 import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.productsmanagement.command.domain.assortment.Assortment;
 import com.smalaca.productsmanagement.command.domain.assortment.AssortmentRepository;
+
+import lombok.AllArgsConstructor;
 
 @PrimaryAdapter
 @AllArgsConstructor

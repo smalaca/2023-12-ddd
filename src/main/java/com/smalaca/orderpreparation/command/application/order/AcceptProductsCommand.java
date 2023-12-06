@@ -7,6 +7,6 @@ import lombok.Value;
 @Value(staticConstructor = "of")
 public class AcceptProductsCommand {
 
-    private final UUID productsToOrderId;
+    private final UUID shoppingListId;
 
 }
