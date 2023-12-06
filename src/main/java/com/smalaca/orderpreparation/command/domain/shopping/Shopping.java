@@ -7,14 +7,17 @@ import com.smalaca.orderpreparation.command.domain.disposal.AcceptShoppingDomain
 import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
 import com.smalaca.orderpreparation.command.domain.product.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @AggregateRoot
 public class Shopping {
     private UUID shoppingId;
-    private final List<Product> products = new ArrayList<>();
+    private final List<Product> products;
+
+    public Shopping(List<Product> products) {
+        this.products = products;
+    }
 
     @PrimaryPort
     @Factory

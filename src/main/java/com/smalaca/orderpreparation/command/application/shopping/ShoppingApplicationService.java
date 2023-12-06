@@ -3,10 +3,12 @@ package com.smalaca.orderpreparation.command.application.shopping;
 import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.orderpreparation.command.domain.disposal.Disposal;
 import com.smalaca.orderpreparation.command.domain.disposal.DisposalRepository;
+import com.smalaca.orderpreparation.command.domain.product.Product;
 import com.smalaca.orderpreparation.command.domain.shopping.Shopping;
 import com.smalaca.orderpreparation.command.domain.shopping.ShoppingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @PrimaryAdapter
@@ -21,7 +23,9 @@ public class ShoppingApplicationService {
 
     @Transactional
     public UUID confirm(ConfirmChoiceCommand command) {
-        Shopping shopping = new Shopping();
+        List<Product> products = command.asProducts();
+
+        Shopping shopping = new Shopping(products);
 
         return shoppingRepository.save(shopping);
     }
