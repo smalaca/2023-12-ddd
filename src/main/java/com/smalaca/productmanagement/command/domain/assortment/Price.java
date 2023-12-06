@@ -11,4 +11,8 @@ public class Price {
     public Price(BigDecimal value) {
         this.value = value;
     }
+
+    BigDecimal value() {
+        return value;
+    }
 }
