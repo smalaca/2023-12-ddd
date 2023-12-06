@@ -11,15 +11,14 @@ import com.smalaca.orderpreparation.command.application.producttoorder.ProductTo
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-@RestController(value = "/order")
+@RestController(value = "/products-to-approve")
 public class ProductToOrderHttpEndpoint {
 
-    private final ProductToOrderApplicationService orderApplicationService;
+    private final ProductToOrderApplicationService service;
 
     @PostMapping(value = "/approve")
     public UUID approve(final ApproveCartCommand command) {
-        return orderApplicationService.approve(command);
+        return service.approve(command);
     }
-
 
 }
