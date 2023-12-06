@@ -21,8 +21,9 @@ public class AssortmentRestController {
     }
 
     @PostMapping
-    public UUID addProduct(NewProductCommand command) {
-        return assortmentApplicationService.addProduct(command);
+    public AssortmentDataModel addProduct(NewProductCommand command) {
+        UUID id = assortmentApplicationService.addProduct(command);
+        return assortmentQueryService.displayAssortment(id);
     }
 
     @GetMapping

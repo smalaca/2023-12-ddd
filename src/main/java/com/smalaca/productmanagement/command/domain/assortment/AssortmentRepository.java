@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface AssortmentRepository {
     Assortment findById(UUID uuid);
 
-    void save(Assortment assortment);
+    UUID save(Assortment assortment);
 }

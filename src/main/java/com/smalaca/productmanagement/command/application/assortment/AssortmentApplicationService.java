@@ -3,6 +3,7 @@ package com.smalaca.productmanagement.command.application.assortment;
 import com.smalaca.annotation.architecture.PrimaryAdapter;
 import com.smalaca.productmanagement.command.domain.assortment.Assortment;
 import com.smalaca.productmanagement.command.domain.assortment.AssortmentRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ public class AssortmentApplicationService {
         this.assortmentRepository = assortmentRepository;
     }
 
+    @Transactional
     public UUID addProduct(NewProductCommand command) {
         // tłumaczenie ze świata zewnętrznego na ubiquitous language [0 ... *]
         // typy proste -> value object
@@ -21,10 +23,9 @@ public class AssortmentApplicationService {
         Assortment assortment = assortmentRepository.findById(command.assortmentId());
 
         // wywołanie metody z domeny [1]
-        UUID productId = assortment.addProduct();
+        assortment.addProduct();
 
         // zapis agregatów [1...*] LUB/I opublikowanie zdarzeń [1]
-        assortmentRepository.save(assortment);
-        return productId;
+        return assortmentRepository.save(assortment);
     }
 }

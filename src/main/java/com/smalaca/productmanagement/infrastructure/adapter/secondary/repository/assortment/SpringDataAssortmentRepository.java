@@ -14,7 +14,8 @@ public class SpringDataAssortmentRepository implements AssortmentRepository {
     }
 
     @Override
-    public void save(Assortment assortment) {
+    public UUID save(Assortment assortment) {
 
+        return null;
     }
 }
