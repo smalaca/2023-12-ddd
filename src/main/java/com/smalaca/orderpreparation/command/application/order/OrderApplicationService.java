@@ -4,9 +4,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.domain.order.Order;
 import com.smalaca.orderpreparation.command.domain.order.OrderId;
+import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
 import com.smalaca.orderpreparation.command.domain.order.OrderRepository;
 import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
@@ -29,7 +31,9 @@ public class OrderApplicationService {
 
     private final ProductsReservationService productsReservationService;
 
-    private final Function<CustomerId, String> randomNumberGenerator = customerId -> customerId.getId().toString() + UUID.randomUUID();
+    @Factory
+    private final Function<CustomerId, OrderNumber> randomNumberGenerator =
+        customerId -> OrderNumber.of(String.join("-", customerId.getId().toString(), UUID.randomUUID().toString()));
 
     private final EventBus eventBus;
 

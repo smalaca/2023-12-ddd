@@ -11,6 +11,7 @@ import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.application.order.AcceptProductsCommand;
 import com.smalaca.orderpreparation.command.domain.order.Order;
 import com.smalaca.orderpreparation.command.domain.order.OrderId;
+import com.smalaca.orderpreparation.command.domain.order.OrderNumber;
 import com.smalaca.orderpreparation.command.domain.order.ProductUnavailableEvent;
 import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
@@ -19,6 +20,7 @@ import com.smalaca.orderpreparation.sharedkernel.Product;
 import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.validation.ValidatorExecutor;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,14 +36,15 @@ public class ShoppingList {
     @NotNull
     private ShoppingListId id;
 
-    @NotBlank
-    private String number;
+    @Valid
+    @NotNull
+    private ShoppingListNumber number;
 
     @NotEmpty
     private final List<Product> products;
 
     @Factory
-    public static ShoppingList of(final ShoppingListId id, final Function<CustomerId, String> randomNumberGenerator, final CustomerId customer,
+    public static ShoppingList of(final ShoppingListId id, final Function<CustomerId, ShoppingListNumber> randomNumberGenerator, final CustomerId customer,
                                   final List<Product> products, final EventBus eventBus) {
         ShoppingList shoppingList = ValidatorExecutor.validateAndReturn(new ShoppingList(id, randomNumberGenerator.apply(customer), products));
         eventBus.fire(ProductsSelectedEvent.of(products));
@@ -51,7 +54,7 @@ public class ShoppingList {
     @Factory
     @PrimaryPort
     public Optional<Order> accept(final OrderId orderId,
-                                  final Function<CustomerId, String> randomNumberGenerator,
+                                  final Function<CustomerId, OrderNumber> randomNumberGenerator,
                                   final CustomerId customer,
                                   final AcceptProductsCommand.AcceptParams params,
                                   final EventBus eventBus,

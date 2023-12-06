@@ -29,8 +29,9 @@ public class Order {
     @NotNull
     private final ShoppingListId shoppingListId;
 
-    @NotBlank
-    private final String number;
+    @Valid
+    @NotNull
+    private final OrderNumber number;
 
     @Valid
     @NotNull
@@ -45,7 +46,7 @@ public class Order {
     // todo possible move to separate factory
     @Factory
     public static Order of(final OrderId id, final ShoppingListId shoppingListId, final CustomerId customer,
-                           final Function<CustomerId, String> randomNumberGenerator,
+                           final Function<CustomerId, OrderNumber> randomNumberGenerator,
                            final DeliveryInfo deliveryInfo, final PaymentType paymentType, final List<Product> products) {
         Order order = new Order(id, shoppingListId, randomNumberGenerator.apply(customer), deliveryInfo, paymentType, products);
         return ValidatorExecutor.validateAndReturn(order);
