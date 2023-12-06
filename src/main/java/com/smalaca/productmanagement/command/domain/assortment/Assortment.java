@@ -2,9 +2,7 @@ package com.smalaca.productmanagement.command.domain.assortment;
 
 import com.smalaca.annotation.architecture.PrimaryPort;
 import com.smalaca.annotation.ddd.AggregateRoot;
-import com.smalaca.productmanagement.command.domain.eventpublisher.EventPublisher;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductDto;
-import com.smalaca.productmanagement.command.domain.productvalidation.ProductValidation;
 import com.smalaca.productmanagement.command.domain.productvalidation.ProductValidationResponse;
 
 import java.util.HashMap;
@@ -18,16 +16,19 @@ public class Assortment {
     private Map<Product, Amount> products = new HashMap<>();
 
     @PrimaryPort
-    public void addProduct(
-            Amount amount, Price price, String name, String description, ProductValidation productValidation, EventPublisher eventPublisher) {
-        ProductValidationResponse response = productValidation.verify(new ProductDto(name, price.value()));
+    public void addProduct(NewProductDomainCommand command) {
+        ProductValidationResponse response = verifyProduct(command);
 
         if (response.isValid()) {
-            Product product = new Product(name, price, description);
-            products.put(product, amount);
-            eventPublisher.publish(ProductAdded.create(assortmentId));
+            Product product = new Product(command.name(), command.price(), command.description());
+            products.put(product, command.amount());
+            command.eventPublisher().publish(ProductAdded.create(assortmentId));
         } else {
-            eventPublisher.publish(InvalidProductRecognized.create(assortmentId, name, price));
+            command.eventPublisher().publish(InvalidProductRecognized.create(assortmentId, command.name(), command.price()));
         }
+    }
+
+    private ProductValidationResponse verifyProduct(NewProductDomainCommand command) {
+        return command.productValidation().verify(new ProductDto(command.name(), command.price().value()));
     }
 }
