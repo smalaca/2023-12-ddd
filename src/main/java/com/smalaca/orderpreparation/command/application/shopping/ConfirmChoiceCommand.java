@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public record ConfirmChoiceCommand(Map<UUID, Integer> products) {
+public record ConfirmChoiceCommand(UUID buyerId, Map<UUID, Integer> products) {
     List<Product> asProducts() {
         List<Product> products = new ArrayList<>();
 

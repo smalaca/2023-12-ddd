@@ -29,7 +29,7 @@ public class ShoppingApplicationService {
     public UUID confirm(ConfirmChoiceCommand command) {
         List<Product> products = command.asProducts();
 
-        Shopping shopping = shoppingFactory.create(products);
+        Shopping shopping = shoppingFactory.create(command.buyerId(), products);
 
         return shoppingRepository.save(shopping);
     }

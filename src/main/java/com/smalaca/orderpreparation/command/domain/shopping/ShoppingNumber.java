@@ -14,7 +14,7 @@ class ShoppingNumber {
     }
 
     @Factory
-    static ShoppingNumber create() {
-        return new ShoppingNumber(UUID.randomUUID().toString());
+    static ShoppingNumber create(UUID buyerId) {
+        return new ShoppingNumber(buyerId + "-" + UUID.randomUUID());
     }
 }
