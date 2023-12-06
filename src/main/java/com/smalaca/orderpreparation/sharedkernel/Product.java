@@ -1,4 +1,4 @@
-package com.smalaca.orderpreparation.sharedcernel;
+package com.smalaca.orderpreparation.sharedkernel;
 
 import java.util.UUID;
 

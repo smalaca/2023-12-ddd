@@ -1,4 +1,4 @@
-package com.smalaca.sharedcernel;
+package com.smalaca.orderpreparation.command.domain.order;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import lombok.Value;
 
 @ValueObject
 @Value(staticConstructor = "of")
-public class CustomerId {
+public class OrderId {
 
     private final UUID id;
 

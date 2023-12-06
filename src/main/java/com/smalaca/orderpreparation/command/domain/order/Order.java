@@ -1,13 +1,13 @@
 package com.smalaca.orderpreparation.command.domain.order;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
 
 import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
-import com.smalaca.orderpreparation.sharedcernel.Product;
-import com.smalaca.sharedcernel.CustomerId;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListId;
+import com.smalaca.orderpreparation.sharedkernel.Product;
+import com.smalaca.sharedkernel.CustomerId;
 import com.smalaca.validation.ValidatorExecutor;
 
 import jakarta.validation.Valid;
@@ -24,10 +24,10 @@ public class Order {
 
     @Getter
     @NotNull
-    private final UUID id;
+    private final OrderId id;
 
     @NotNull
-    private final UUID shoppingListId;
+    private final ShoppingListId shoppingListId;
 
     @NotBlank
     private final String number;
@@ -44,7 +44,7 @@ public class Order {
 
     // todo possible move to separate factory
     @Factory
-    public static Order of(final UUID id, final UUID shoppingListId, final CustomerId customer,
+    public static Order of(final OrderId id, final ShoppingListId shoppingListId, final CustomerId customer,
                            final Function<CustomerId, String> randomNumberGenerator,
                            final DeliveryInfo deliveryInfo, final PaymentType paymentType, final List<Product> products) {
         Order order = new Order(id, shoppingListId, randomNumberGenerator.apply(customer), deliveryInfo, paymentType, products);

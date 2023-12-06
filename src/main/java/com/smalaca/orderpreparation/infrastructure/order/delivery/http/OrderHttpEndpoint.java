@@ -18,7 +18,7 @@ public class OrderHttpEndpoint {
 
     @PostMapping(value = "/accept")
     public UUID accept(final AcceptProductsCommand command) {
-        return orderApplicationService.accept(command);
+        return orderApplicationService.accept(command).getId();
     }
 
 

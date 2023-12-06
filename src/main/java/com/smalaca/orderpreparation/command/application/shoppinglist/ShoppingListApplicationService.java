@@ -6,7 +6,7 @@ import java.util.function.Function;
 import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
-import com.smalaca.sharedcernel.CustomerId;
+import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.AllArgsConstructor;
 

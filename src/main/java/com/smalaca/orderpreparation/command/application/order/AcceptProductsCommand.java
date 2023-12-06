@@ -1,10 +1,9 @@
 package com.smalaca.orderpreparation.command.application.order;
 
-import java.util.UUID;
-
 import com.smalaca.orderpreparation.command.domain.order.DeliveryInfo;
 import com.smalaca.orderpreparation.command.domain.order.PaymentType;
-import com.smalaca.sharedcernel.CustomerId;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListId;
+import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.Value;
 
@@ -13,7 +12,7 @@ public class AcceptProductsCommand {
 
     private final CustomerId customer;
 
-    private final UUID shoppingListId;
+    private final ShoppingListId shoppingListId;
 
     private final AcceptParams params;
 

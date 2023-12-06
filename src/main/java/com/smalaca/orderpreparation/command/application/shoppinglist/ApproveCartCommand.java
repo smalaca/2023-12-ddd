@@ -1,10 +1,9 @@
 package com.smalaca.orderpreparation.command.application.shoppinglist;
 
 import java.util.List;
-import java.util.UUID;
 
-import com.smalaca.orderpreparation.sharedcernel.Product;
-import com.smalaca.sharedcernel.CustomerId;
+import com.smalaca.orderpreparation.sharedkernel.Product;
+import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.Value;
 
@@ -12,8 +11,6 @@ import lombok.Value;
 public class ApproveCartCommand {
 
     private final CustomerId customer;
-
-    private final UUID cartId;
 
     private final List<Product> products;
 

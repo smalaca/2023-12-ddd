@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
+import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListId;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ShoppingListMapRepository implements ShoppingListRepository {
 
-    private final Map<UUID, ShoppingList> store = new HashMap<>();
+    private final Map<ShoppingListId, ShoppingList> store = new HashMap<>();
 
     @Override
     public void save(final ShoppingList order) {
@@ -20,12 +21,12 @@ public class ShoppingListMapRepository implements ShoppingListRepository {
     }
 
     @Override
-    public ShoppingList read(final UUID id) {
+    public ShoppingList read(final ShoppingListId id) {
         return store.get(id);
     }
 
     @Override
-    public UUID generateId() {
-        return UUID.randomUUID();
+    public ShoppingListId generateId() {
+        return ShoppingListId.of(UUID.randomUUID());
     }
 }

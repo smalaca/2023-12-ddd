@@ -6,12 +6,13 @@ import java.util.function.Function;
 
 import com.smalaca.eventbus.EventBus;
 import com.smalaca.orderpreparation.command.domain.order.Order;
+import com.smalaca.orderpreparation.command.domain.order.OrderId;
 import com.smalaca.orderpreparation.command.domain.order.OrderRepository;
 import com.smalaca.orderpreparation.command.domain.order.ProductsAvailabilityValidator;
 import com.smalaca.orderpreparation.command.domain.order.ProductsReservationService;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingList;
 import com.smalaca.orderpreparation.command.domain.shoppinglist.ShoppingListRepository;
-import com.smalaca.sharedcernel.CustomerId;
+import com.smalaca.sharedkernel.CustomerId;
 
 import lombok.AllArgsConstructor;
 
@@ -30,7 +31,7 @@ public class OrderApplicationService {
 
     private final EventBus eventBus;
 
-    public UUID accept(final AcceptProductsCommand command) {
+    public OrderId accept(final AcceptProductsCommand command) {
         ShoppingList shoppingList = shoppingListAccessor.read(command.getShoppingListId());
 
         Optional<Order> order = shoppingList.accept(repository.generateId(), randomNumberGenerator,

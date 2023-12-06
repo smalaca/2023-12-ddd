@@ -3,7 +3,7 @@ package com.smalaca.orderpreparation.command.domain.order;
 import java.util.List;
 
 import com.smalaca.annotation.ddd.DomainEvent;
-import com.smalaca.orderpreparation.sharedcernel.Product;
+import com.smalaca.orderpreparation.sharedkernel.Product;
 
 import lombok.Value;
 
