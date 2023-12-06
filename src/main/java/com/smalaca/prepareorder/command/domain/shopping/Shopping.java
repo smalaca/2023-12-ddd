@@ -5,6 +5,8 @@ import com.smalaca.annotation.ddd.AggregateRoot;
 import com.smalaca.annotation.ddd.Factory;
 import com.smalaca.prepareorder.command.application.disposition.AddressVO;
 import com.smalaca.prepareorder.command.domain.disposition.Disposition;
+import com.smalaca.prepareorder.command.domain.payment.PaymentEvent;
+import com.smalaca.prepareorder.command.domain.payment.PaymentEventPublisherIf;
 import com.smalaca.prepareorder.command.domain.product.ProductVO;
 import com.smalaca.prepareorder.command.domain.productmanagement.ProductManagementResult;
 import com.smalaca.prepareorder.command.domain.productmanagement.ProductManagementServiceIf;
@@ -24,7 +26,7 @@ public class Shopping {
 
     @PrimaryPort
     @Factory
-    public Disposition confirmProducts(String transportType, AddressVO addressVO, String paymentType, ProductManagementServiceIf productManagementService) {
+    public Disposition confirmProducts(String transportType, AddressVO addressVO, String paymentType, ProductManagementServiceIf productManagementService, PaymentEventPublisherIf paymentEventPublisher) {
         for (Map.Entry<ProductVO, Integer> entry : listOfProductsWithAmount.entrySet()) {
             ProductVO product = entry.getKey();
             Integer amount = entry.getValue();
@@ -33,7 +35,10 @@ public class Shopping {
                 return null;
             }
         }
-        return new Disposition(UUID.randomUUID(), listOfProductsWithAmount, transportType, addressVO, paymentType);
+        Disposition disposition = new Disposition(UUID.randomUUID(), listOfProductsWithAmount, transportType, addressVO, paymentType);
+        PaymentEvent paymentEvent = disposition.createPaymentEvent();
+        paymentEventPublisher.sendEvent(paymentEvent);
+        return disposition;
     }
 
     public UUID getID() {

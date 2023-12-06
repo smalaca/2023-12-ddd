@@ -38,11 +38,9 @@ public class DispositionApplicationService {
 
         AddressVO addressVO = new AddressVO(dispositionCommand.street(), dispositionCommand.city(), dispositionCommand.houseNumber());
 
-        Disposition disposition = shopping.confirmProducts(dispositionCommand.transportType(), addressVO, dispositionCommand.paymentType(), productManagementService);
+        Disposition disposition = shopping.confirmProducts(dispositionCommand.transportType(), addressVO, dispositionCommand.paymentType(), productManagementService, paymentEventPublisher);
 
         if (disposition != null) {
-            PaymentEvent paymentEvent = disposition.createPaymentEvent();
-            paymentEventPublisher.sendEvent(paymentEvent);
             return disposition.getID();
         } else
             return null;
