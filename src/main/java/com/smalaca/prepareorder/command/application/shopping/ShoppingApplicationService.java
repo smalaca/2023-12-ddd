@@ -18,5 +18,6 @@ public class ShoppingApplicationService {
 
 
     public UUID confirmChose(ShoppingCommand shoppingCommand) {
+        return null;
     }
 }
