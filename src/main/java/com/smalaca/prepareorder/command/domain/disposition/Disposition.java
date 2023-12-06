@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Disposition {
 
     private UUID ID;
-    private Map<UUID,Integer> listOfProductsWithAmount;
+    private Map<ProductVO,Integer> listOfProductsWithAmount;
     private String transportType;
     private AddressVO addressVO;
     private String paymentType;
