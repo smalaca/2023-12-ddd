@@ -25,7 +25,9 @@ public class DispositionApplicationService {
 
         Shopping shopping = shoppingRepository.findById(dispositionCommand.shoppingId());
 
-        Disposition disposition = shopping.confirmProducts(dispositionCommand.transportType(), dispositionCommand.addressVO(), dispositionCommand.paymentType());
+        AddressVO addressVO = new AddressVO(dispositionCommand.street(),dispositionCommand.city(),dispositionCommand.houseNumber());
+
+        Disposition disposition = shopping.confirmProducts(dispositionCommand.transportType(),addressVO, dispositionCommand.paymentType());
 
         if (disposition != null) {
             dispositionRepository.save(disposition);
