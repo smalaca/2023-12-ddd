@@ -1,4 +1,6 @@
 package com.smalaca.productmanagement.command.application.assortment;
 
-public record NewProductCommand() {
+import java.util.UUID;
+
+public record NewProductCommand(UUID assortmentId) {
 }
